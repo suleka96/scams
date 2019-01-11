@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Navbar, NavbarBrand, NavbarNav, NavItem, NavLink, NavbarToggler, Collapse, FormInline, Dropdown, DropdownToggle, DropdownMenu,  DropdownItem, Container, Fa } from "mdbreact";
 
 import * as ROUTES from '../../constants/routes';
@@ -20,7 +19,7 @@ class NavbarPage extends Component {
 
   render() {
     return (
-        <Navbar class="fixed-top" color="special-color-dark" dark expand="md">
+        <Navbar color="special-color-dark" dark expand="md">
             <Container>
                 <NavbarBrand>
                     <strong className="white-text">Blockchain Scams</strong>

@@ -9,15 +9,15 @@ import React from "react";
         <Row>
           <Col md="12" className="py-5">
             <div className="mb-5 flex-center">
-              <a className="fb-ic">
+              <a href="#!" className="fb-ic">
                 <i className="fa fa-facebook fa-lg white-text mr-md-5 mr-3 fa-2x">
                 </i>
               </a>
-              <a className="gplus-ic">
+              <a href="#!" className="gplus-ic">
                 <i className="fa fa-google-plus fa-lg white-text mr-md-5 mr-3 fa-2x">
                 </i>
               </a>
-              <a className="li-ic">
+              <a href="#!" className="li-ic">
                 <i className="fa fa-github fa-lg white-text mr-md-5 mr-3 fa-2x">
                 </i>
               </a>
