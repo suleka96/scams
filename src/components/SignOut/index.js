@@ -1,9 +1,10 @@
 import React from 'react';
+import {DropdownItem} from "mdbreact";
 
-const SignOut = () => (
-  <div>
-    <h1>SignOut</h1>
-  </div>
+import { withFirebase } from '../Firebase';
+
+const SignOutButton = ({ firebase }) => (
+  <DropdownItem onClick={firebase.doSignOut}>Log out</DropdownItem>
 );
 
-export default SignOut;
+export default withFirebase(SignOutButton);
