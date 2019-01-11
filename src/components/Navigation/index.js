@@ -20,14 +20,14 @@ class NavbarPage extends Component {
 
   render() {
     return (
-        <Navbar class="fixed-top" color="default-color" light expand="md">
+        <Navbar class="fixed-top" color="special-color-dark" dark expand="md">
             <Container>
                 <NavbarBrand>
-                    <strong className="dark-text">Blockchain Scams</strong>
+                    <strong className="white-text">Blockchain Scams</strong>
                 </NavbarBrand>
                 <NavbarToggler onClick={this.toggleCollapse("navbarCollapse3")}/>
                 <Collapse id="navbarCollapse3" isOpen={this.state.collapseID} navbar>
-                    <NavbarNav left>
+                    <NavbarNav left >
                         <NavItem active>
                             <NavLink to={ROUTES.LANDING}>Landing</NavLink>
                         </NavItem>
