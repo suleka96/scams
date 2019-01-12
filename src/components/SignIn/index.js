@@ -6,6 +6,7 @@ import { compose } from 'recompose';
 import { SignUpLink } from '../SignUp';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import SignInGoogle from "../GoogleLogin";
 
 const SignIn = () => (
   <SignInForm />
@@ -111,16 +112,7 @@ class SignInFormBase extends Component {
                                         or
                                     </p>
                                     <div className="row my-3 d-flex justify-content-center">
-                                        <MDBBtn
-                                            type="button"
-                                            color="red darken-3"
-                                            rounded
-                                            className="z-depth-1a"
-                                        >
-                                            Sign in with
-                                            <MDBIcon icon="google-plus" style={{marginLeft: "5px"}}
-                                                     className="white-text"/>
-                                        </MDBBtn>
+                                        <SignInGoogle />
                                     </div>
                                 </form>
                                 <MDBModalFooter className="mx-5 pt-3 mb-1">

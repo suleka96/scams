@@ -14,11 +14,14 @@ class Firebase {
   constructor() {
     require('dotenv').config();
     app.initializeApp(config);
+    this.googleProvider = new app.auth.GoogleAuthProvider();
 
     this.auth = app.auth();
   }
 
   // *** Auth API ***
+  doSignInWithGoogle = () =>
+    this.auth.signInWithPopup(this.googleProvider);
 
   doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
