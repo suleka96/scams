@@ -28,7 +28,7 @@ import React from "react";
       <div className="footer-copyright text-center py-3">
         <Container fluid>
           &copy; {new Date().getFullYear()} Copyright:{" "}
-          <a href="https://www.scorelab.org"> scorelab.com </a>
+          <a href="https://www.scorelab.org"> scorelab.org </a>
         </Container>
       </div>
     </Footer>
