@@ -65,7 +65,7 @@ const SomeComponent = () => (
                 <Col md="5">
                     <h3>Supported Blockchains</h3>
                     <hr/>
-                    <img className="img-responsive" style={{width:"500px"}} src={'/images/cryptocurrency.jpg'} />
+                    <img className="img-responsive" style={{width:"500px"}} alt="blockchain-logos" src={'/images/cryptocurrency.jpg'} />
                 </Col>
             </Row>
         </MDBContainer>

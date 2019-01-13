@@ -35,9 +35,6 @@ class NavigationAuth extends Component {
                 <Collapse id="navbarCollapse3" isOpen={this.state.collapseID} navbar>
                     <NavbarNav left >
                         <NavItem>
-                            <NavLink to={ROUTES.LOOKUP}>Address Lookup</NavLink>
-                        </NavItem>
-                        <NavItem>
                             <NavLink to={ROUTES.REPORT}>Report Scam</NavLink>
                         </NavItem>
                         <NavItem>
@@ -93,9 +90,6 @@ class NavigationNonAuth extends Component {
                 <NavbarToggler onClick={this.toggleCollapse("navbarCollapse3")}/>
                 <Collapse id="navbarCollapse3" isOpen={this.state.collapseID} navbar>
                     <NavbarNav left >
-                        <NavItem>
-                            <NavLink to={ROUTES.LOOKUP}>Address Lookup</NavLink>
-                        </NavItem>
                     </NavbarNav>
                     <NavbarNav right>
                         <NavItem>

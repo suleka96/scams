@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBModalFooter } from 'mdbreact';
 import { compose } from 'recompose';
-
-import { SignUpLink } from '../SignUp';
+import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import SignInGoogle from "../GoogleLogin";
@@ -89,10 +88,7 @@ class SignInFormBase extends Component {
                                             validate
                                         />
                                         <p className="font-small blue-text d-flex justify-content-end pb-3">
-                                            <a href="#!" className="dark-grey-text font-weight-bold ml-1">
-
-                                                Forgot Password?
-                                            </a>
+                                            <PasswordForgetLink />
                                         </p>
                                     </div>
                                     <div className="text-center mt-4">

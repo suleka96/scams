@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -17,6 +18,7 @@ class Firebase {
     this.googleProvider = new app.auth.GoogleAuthProvider();
 
     this.auth = app.auth();
+    this.db = app.database();
   }
 
   // *** Auth API ***
@@ -35,6 +37,13 @@ class Firebase {
 
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
+
+  // *** Report Scam API ***
+  reportScams = () => this.db.ref('reportedScams/');
+
+  // *** Tagging API ***
+  tags = () => this.db.ref('tags/');
+
 }
 
 export default Firebase;
