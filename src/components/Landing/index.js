@@ -12,7 +12,7 @@ const SomeComponent = () => (
     <MDBContainer fluid>
         <MDBJumbotron fluid style={{backgroundColor: "#0099CA", marginLeft:"-15px", marginRight:"-15px",borderTopLeftRadius:"0",borderTopRightRadius:"0"}}>
             <MDBContainer style={{textAlign: "center", color: "white"}}>
-                <h2 className="display-4">Blockchain Scams</h2>
+                <h2 className="display-4">Crypto Scams</h2>
                 <p className="lead" style={{textTransform: "uppercase", fontSize: "14px"}}>This is the platform to check
                     a
                     address in various blockchains using lookup to see there have been scam alerts <br/>connected to it.
@@ -28,13 +28,6 @@ const SomeComponent = () => (
                                 placeholder="Enter blockchain address, keyword, name etc."
                                 aria-label="Search"
                             />
-                            <select className="browser-default" id="search-selector">
-                              <option>Bitcoin</option>
-                              <option value="1">Monero</option>
-                              <option value="2">Ethereum</option>
-                              <option value="3">Z cash</option>
-                              <option value="3">Ripple</option>
-                            </select>
                             <div className="input-group-prepend">
                                 <span className="input-group-text special-color-dark lighten-3" id="basic-text1">
                                   <Fa className="text-white" icon="search"/>
