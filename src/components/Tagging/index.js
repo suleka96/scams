@@ -68,7 +68,7 @@ class TaggingBase extends Component {
     }
 
     componentWillUnmount() {
-        this.props.firebase.reportScams().off();
+        this.props.firebase.tags().off();
     }
 
     handleSubmit(event) {
@@ -222,7 +222,6 @@ const TagList = ({ tags }) => (
         </Col>
         <Col md="1"/>
     </Row>
-
 );
 
 
