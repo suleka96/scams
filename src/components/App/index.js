@@ -13,6 +13,7 @@ import HomePage from '../Lookup';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import LookupPage from '../Lookup';
+import ExplorerPage from '../Explorer';
 // import ReportPage from '../Report';
 // import TaggingPage from '../Tagging';
 import FooterPagePro from '../Footer';
@@ -33,6 +34,7 @@ const App = () => (
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
       <Route path={ROUTES.LOOKUP} component={LookupPage} />
+      <Route path={ROUTES.EXPLORER_ADDRESS} render={(props) => <ExplorerPage {...props} />} />
       {/*<Route path={ROUTES.REPORT} component={ReportPage} />*/}
       {/*<Route path={ROUTES.TAG} component={TaggingPage} />*/}
 

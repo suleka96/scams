@@ -21,3 +21,7 @@
     border-left: none;
     color:#495057;
 }
+
+.address_hover:hover{
+  text-decoration: underline;
+}
