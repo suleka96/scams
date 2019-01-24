@@ -7,7 +7,7 @@ import "./style.css";
 import {withRouter} from "react-router-dom";
 import {withFirebase} from "../Firebase";
 import {compose} from "recompose";
-
+import { WithContext as ReactTags } from 'react-tag-input';
 
 const FORM_STATE = {
   reportedBy:'',
@@ -23,7 +23,6 @@ const FORM_STATE = {
 
 const FORM_STATE_TAG = {
   reportedBy:'',
-  taggedNames:'',
   blockchainTag: '',
   involvedTagAddress: '',
   tagDescription:'',
@@ -34,6 +33,13 @@ const FORM_STATE_TAG = {
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const Navigation = () => (
   <div>
@@ -55,8 +61,16 @@ class NavigationAuth extends Component {
             userData:null,
         };
 
+        this.state = {
+            tags: [],
+            suggestions: []
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmitTag = this.handleSubmitTag.bind(this);
+
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleAddition = this.handleAddition.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
     }
 
     componentDidMount() {
@@ -93,7 +107,11 @@ class NavigationAuth extends Component {
         event.preventDefault();
         const { scamName, blockchainScam, involvedScamAddress, scamType,website,scamDescription } = this.state;
         let today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+        let tags=[];
 
+        for (let x = 0; x < this.state.tags.length; x++) {
+            tags.push(this.state.tags[x].text);
+        }
 
         this.props.firebase.reportScams().push({
                     reportedBy:this.state.userData,
@@ -101,6 +119,7 @@ class NavigationAuth extends Component {
                     blockchain: blockchainScam,
                     involvedAddress: involvedScamAddress,
                     scamType: scamType,
+                    addressTags:tags,
                     website: website,
                     description: scamDescription,
                     time: today
@@ -109,19 +128,26 @@ class NavigationAuth extends Component {
         alert("Submitted Successfully!");
         this.setState({...FORM_STATE});
         this.setState({
+            tags: [],
+            suggestions: []});
+        this.setState({
             scamModal: !this.state.scamModal
         });
     }
 
     handleSubmitTag(event) {
         event.preventDefault();
-        const { taggedNames, blockchainTag, involvedTagAddress,tagDescription } = this.state;
+        const { blockchainTag, involvedTagAddress,tagDescription } = this.state;
         let today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+        let tags=[];
 
+        for (let x = 0; x < this.state.tags.length; x++) {
+            tags.push(this.state.tags[x].text);
+        }
 
         this.props.firebase.tags().push({
                     taggedBy:this.state.userData,
-                    taggedNames: taggedNames,
+                    taggedNames: tags,
                     blockchain: blockchainTag,
                     involvedAddress: involvedTagAddress,
                     description: tagDescription,
@@ -131,8 +157,33 @@ class NavigationAuth extends Component {
         alert("Submitted Successfully!");
         this.setState({...FORM_STATE_TAG});
         this.setState({
+            tags: [],
+            suggestions: []});
+        this.setState({
             tagModal: !this.state.tagModal
         });
+    }
+
+    handleDelete(i) {
+        const { tags } = this.state;
+        this.setState({
+         tags: tags.filter((tag, index) => index !== i),
+        });
+    }
+
+    handleAddition(tag) {
+        this.setState(state => ({ tags: [...state.tags, tag] }));
+    }
+
+    handleDrag(tag, currPos, newPos) {
+        const tags = [...this.state.tags];
+        const newTags = tags.slice();
+
+        newTags.splice(currPos, 1);
+        newTags.splice(newPos, 0, tag);
+
+        // re-render
+        this.setState({ tags: newTags });
     }
 
   render() {
@@ -153,7 +204,6 @@ class NavigationAuth extends Component {
         } = this.state;
 
       const isInvalidTag =
-            taggedNames === '' ||
             involvedTagAddress === '' || tagDescription === '' ||
             blockchainTag === '' ;
 
@@ -162,6 +212,7 @@ class NavigationAuth extends Component {
           involvedScamAddress === '' || scamDescription === '' ||
           blockchainScam === '' || scamType === '';
 
+      const { tags, suggestions } = this.state;
       return (
           <div>
               <Navbar color="special-color-dark" dark expand="md">
@@ -312,7 +363,13 @@ class NavigationAuth extends Component {
                                               <MDBIcon icon="tags" style={{fontSize: "30px"}}/>
                                           </Col>
                                           <Col md="11">
-
+                                              <ReactTags inline tags={tags}
+                                                         placeholder="Add new tag and Enter"
+                                                         suggestions={suggestions}
+                                                         handleDelete={this.handleDelete}
+                                                         handleAddition={this.handleAddition}
+                                                         handleDrag={this.handleDrag}
+                                                         delimiters={delimiters}/>
                                           </Col>
                                       </Row>
                                       <MDBInput
@@ -383,17 +440,20 @@ class NavigationAuth extends Component {
                                       </select>
                                   </Col>
                               </Row>
-                              <MDBInput
-                                  label="Enter Tags with comma seperated"
-                                  icon="tags"
-                                  group
-                                  type="text"
-                                  validate
-                                  error="wrong"
-                                  success="right"
-                                  value={taggedNames}
-                                  onChange={event => this.setState(byPropKey('taggedNames', event.target.value))}
-                              />
+                              <Row className="form-group margin-bot">
+                                  <Col md="1">
+                                      <MDBIcon icon="tags" style={{fontSize: "30px"}}/>
+                                  </Col>
+                                  <Col md="11">
+                                      <ReactTags inline tags={tags}
+                                                 placeholder="Add new tag and Enter"
+                                                 suggestions={suggestions}
+                                                 handleDelete={this.handleDelete}
+                                                 handleAddition={this.handleAddition}
+                                                 handleDrag={this.handleDrag}
+                                                 delimiters={delimiters}/>
+                                  </Col>
+                              </Row>
                               <MDBInput
                                   type="textarea"
                                   rows="2"
