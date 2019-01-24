@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {  MDBRow, MDBCol,Col, Row, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBBtn, Navbar, NavbarBrand, NavbarNav, NavItem, NavLink, NavbarToggler, Collapse, Dropdown, DropdownToggle, DropdownMenu,  DropdownItem, Container, Fa } from "mdbreact";
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
-import { AuthUserContext } from '../Session';
+import { AuthUserContext,withEmailVerification,withAuthorization } from '../Session';
 import "./style.css";
 import {withRouter} from "react-router-dom";
 import {withFirebase} from "../Firebase";
@@ -450,9 +450,12 @@ class NavigationNonAuth extends Component {
   }
 }
 
+const condition = authUser => !!authUser;
 const NavigationAuth2 = compose(
   withRouter,
   withFirebase,
+  withEmailVerification,
+  withAuthorization(condition),
 )(NavigationAuth);
 
 export default Navigation;

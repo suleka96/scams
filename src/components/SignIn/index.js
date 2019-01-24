@@ -58,7 +58,7 @@ class SignInFormBase extends Component {
                             <div className="header pt-3 special-color-dark">
                                 <MDBRow className="d-flex justify-content-start">
                                     <h5 className="white-text mt-3 mb-4 pb-1 mx-5">
-                                        Sign In with Blockchain Scams
+                                        Sign In with Crypto Scams
                                     </h5>
                                 </MDBRow>
                             </div>
