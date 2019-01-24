@@ -1,6 +1,9 @@
-import React from 'react';
-import { MDBJumbotron, MDBContainer,Col, Fa, Row } from "mdbreact";
+import React, { Component } from 'react';
+import { MDBListGroup, MDBListGroupItem, MDBJumbotron, MDBContainer,Col, Fa, Row } from "mdbreact";
 import "./style.css";
+import {withFirebase} from "../Firebase";
+import {withRouter} from "react-router-dom";
+import {compose} from "recompose";
 
 const Landing = () => (
   <div>
@@ -8,69 +11,179 @@ const Landing = () => (
   </div>
 );
 
-const SomeComponent = () => (
-    <MDBContainer fluid>
-        <MDBJumbotron fluid style={{backgroundColor: "#0099CA", marginLeft:"-15px", marginRight:"-15px",borderTopLeftRadius:"0",borderTopRightRadius:"0"}}>
-            <MDBContainer style={{textAlign: "center", color: "white"}}>
-                <h2 className="display-4">Blockchain Scams</h2>
-                <p className="lead" style={{textTransform: "uppercase", fontSize: "14px"}}>This is the platform to check
-                    a
-                    address in various blockchains using lookup to see there have been scam alerts <br/>connected to it.
-                    Or
-                    report a scam if you have details on one</p>
-                <Row>
-                    <Col md="3"/>
-                    <Col md="6">
-                        <div className="input-group md-form form-sm form-1 pl-0">
-                            <input
-                                className="form-control my-0 py-1"
-                                type="text"
-                                placeholder="Enter blockchain address, keyword, name etc."
-                                aria-label="Search"
-                            />
-                            <select className="browser-default" id="search-selector">
-                              <option>Bitcoin</option>
-                              <option value="1">Monero</option>
-                              <option value="2">Ethereum</option>
-                              <option value="3">Z cash</option>
-                              <option value="3">Ripple</option>
-                            </select>
-                            <div className="input-group-prepend">
+class SomeComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            scams: [],
+            tags: [],
+        };
+    }
+
+    componentDidMount() {
+        this.setState({loading: true});
+        this.props.firebase.reportScams().on('value', snapshot => {
+            const scamObject = snapshot.val();
+
+            if (scamObject !== null) {
+                const scamList = Object.keys(scamObject).map(key => ({
+                    ...scamObject[key],
+                    scamid: key,
+                }));
+
+                this.setState({
+                    scams: scamList.reverse().slice(0, 10),
+                    loading: false,
+                });
+            }else{
+                this.setState({
+                    scams: [],
+                    loading: false,
+                });
+            }
+
+        });
+        this.props.firebase.tags().on('value', snapshot => {
+            const tagObject = snapshot.val();
+
+            if (tagObject !== null) {
+                const tagList = Object.keys(tagObject).map(key => ({
+                    ...tagObject[key],
+                    tagid: key,
+                }));
+
+                this.setState({
+                    tags: tagList.reverse().slice(0, 10),
+                    loading: false,
+                });
+            }else{
+                this.setState({
+                    tags: [],
+                    loading: false,
+                });
+            }
+
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.firebase.reportScams().off();
+        this.props.firebase.tags().off();
+    }
+
+    render() {
+        const {scams} = this.state;
+        const {tags, loading} = this.state;
+        return(
+            <MDBContainer fluid>
+                <MDBJumbotron fluid style={{
+                    backgroundColor: "#0099CA",
+                    marginLeft: "-15px",
+                    marginRight: "-15px",
+                    borderTopLeftRadius: "0",
+                    borderTopRightRadius: "0"
+                }}>
+                    <MDBContainer style={{textAlign: "center", color: "white"}}>
+                        <h2 className="display-4">Crypto Scams</h2>
+                        <p className="lead" style={{textTransform: "uppercase", fontSize: "14px"}}>This is the platform
+                            to check
+                            a
+                            address in various blockchains using lookup to see there have been scam alerts <br/>connected
+                            to it.
+                            Or
+                            report a scam if you have details on one</p>
+                        <Row>
+                            <Col md="3"/>
+                            <Col md="6">
+                                <div className="input-group md-form form-sm form-1 pl-0">
+                                    <input
+                                        className="form-control my-0 py-1"
+                                        type="text"
+                                        placeholder="Enter blockchain address, keyword, name etc."
+                                        aria-label="Search"
+                                    />
+                                    <div className="input-group-prepend">
                                 <span className="input-group-text special-color-dark lighten-3" id="basic-text1">
                                   <Fa className="text-white" icon="search"/>
                                 </span>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md="3"/>
-                </Row>
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col md="3"/>
+                        </Row>
+                    </MDBContainer>
+                </MDBJumbotron>
+                <MDBContainer>
+                    <Row>
+                        <Col md="12">
+                            <h3>Latest Reported Scams</h3>
+                            <hr/>
+
+                            {loading && <div>Loading ...</div>}
+                            <ScamList scams={scams}/>
+                        </Col>
+                    </Row>
+                    <Row style={{marginTop:"50px"}}>
+                        <Col md="12">
+                            <h3>Latest Tagged Addresses</h3>
+                            <hr/>
+
+                            {loading && <div>Loading ...</div>}
+                            <TagList tags={tags}/>
+                        </Col>
+                    </Row>
+                </MDBContainer>
             </MDBContainer>
-        </MDBJumbotron>
-        <MDBContainer>
-            <Row>
-                <Col md="7">
-                    <h3>What we offer here?</h3>
-                    <hr/>
+        )
+    }
+}
 
-                    <ul>
-                        <li>Track who's who in the world of Bitcoin with a powerful Bitcoin Block Explorer</li>
-                        <li>Bitcoin Address Check to see if it has been reported as a scam</li>
-                        <li>Check a bitcoin wallet balance</li>
-                        <li>Find a bitcoin address owner</li>
-                        <li>Bitcoin Wallet Transaction Alerts notify you by email when a bitcoin address has activity on the blockchain</li>
-                        <li>View, monitor and search bitcoin ownership and wallet balance by name, bitcoin address, email address, url or keyword</li>
-                        <li>Check a BTC address to find connected websites or owner profiles!</li>
-                    </ul>
-                </Col>
-                <Col md="5">
-                    <h3>Supported Blockchains</h3>
-                    <hr/>
-                    <img className="img-responsive" style={{width:"500px"}} alt="blockchain-logos" src={'/images/cryptocurrency.jpg'} />
-                </Col>
-            </Row>
-        </MDBContainer>
-    </MDBContainer>
-
+const ScamList = ({ scams }) => (
+    <Row>
+        <Col md="12">
+            <MDBListGroup>
+                {scams.map(scam => (
+                    <MDBListGroupItem href="#!" key={scam.scamid} style={{borderBottom:"3px solid #9D9C9D"}}>
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1 text-muted"><b>{scam.scamName}</b></h5>
+                            <small className="text-muted">{scam.time}</small>
+                        </div>
+                        <hr />
+                        <p className="mb-1 text-muted">{scam.description}</p>
+                        <small className="text-muted"><b>Blockchain:</b> {scam.blockchain} / <b>Type:</b> {scam.scamType}</small>
+                    </MDBListGroupItem>
+                ))}
+            </MDBListGroup>
+        </Col>
+        <Col md="1"/>
+    </Row>
 );
 
-export default Landing;
+const TagList = ({ tags }) => (
+    <Row>
+        <Col md="12">
+            <MDBListGroup>
+                {tags.map(tag => (
+                    <MDBListGroupItem href="#!" key={tag.tagid} style={{borderBottom:"3px solid #9D9C9D"}}>
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1 text-muted"><b>{tag.taggedNames}</b></h5>
+                            <small className="text-muted">{tag.time}</small>
+                        </div>
+                        <hr />
+                        <p className="mb-1 text-muted">{tag.description}</p>
+                        <small className="text-muted"><b>Blockchain:</b> {tag.blockchain}</small>
+                    </MDBListGroupItem>
+                ))}
+            </MDBListGroup>
+        </Col>
+        <Col md="1"/>
+    </Row>
+);
+
+const LandingDataPage = compose(
+  withRouter,
+  withFirebase,
+)(SomeComponent);
+
+export default LandingDataPage;

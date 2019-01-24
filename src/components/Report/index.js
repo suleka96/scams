@@ -283,7 +283,6 @@ const ScamList = ({ scams }) => (
         </Col>
         <Col md="1"/>
     </Row>
-
 );
 
 
