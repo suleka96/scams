@@ -4,6 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
 import * as ROUTES from '../../constants/routes';
+import SignInGoogle from "../GoogleLogin";
 
 const SignUp = () => (
   <div>
@@ -28,6 +29,7 @@ class SignUpFormBase extends Component {
 
   onSubmit = event => {
     const { username, email, passwordOne } = this.state;
+    const roles = [];
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -38,13 +40,18 @@ class SignUpFormBase extends Component {
           .set({
             username,
             email,
+            roles,
           });
       })
       .then(() => {
+        return this.props.firebase.doSendEmailVerification();
+      })
+      .then(() => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
+        this.props.history.push(ROUTES.LANDING);
       })
       .catch(error => {
+        // this.props.history.push(ROUTES.LANDING);
         this.setState({ error });
       });
 
@@ -79,7 +86,7 @@ class SignUpFormBase extends Component {
                          <div className="header pt-3 special-color-dark">
                              <MDBRow className="d-flex justify-content-start">
                                  <h5 className="white-text mt-3 mb-4 pb-1 mx-5">
-                                     Sign Up with Blockchain Scams
+                                     Sign Up with Crypto Scams
                                  </h5>
                              </MDBRow>
                          </div>
@@ -151,16 +158,7 @@ class SignUpFormBase extends Component {
                                      or
                                  </p>
                                  <div className="row my-3 d-flex justify-content-center">
-                                     <MDBBtn
-                                         type="button"
-                                         color="red darken-3"
-                                         rounded
-                                         className="z-depth-1a"
-                                     >
-                                         Sign Up with
-                                         <MDBIcon icon="google-plus" style={{marginLeft: "5px"}}
-                                                  className="white-text"/>
-                                     </MDBBtn>
+                                     <SignInGoogle />
                                  </div>
                              </form>
                              <MDBModalFooter className="mx-5 pt-3 mb-1">

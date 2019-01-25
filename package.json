@@ -13,7 +13,8 @@
     "react-router-active-component": "^4.0.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",
-    "react-select": "^2.2.0",
+    "react-select": "^2.3.0",
+    "react-tag-input": "^6.2.0",
     "recompose": "^0.30.0"
   },
   "scripts": {

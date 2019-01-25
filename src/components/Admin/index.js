@@ -12,25 +12,17 @@ class AdminPage extends Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({ loading: true });
-
-    this.props.firebase.users().on('value', snapshot => {
-      this.setState({
-        users: snapshot.val(),
-        loading: false,
-      });
-    });
-  }
-
   render() {
+    const { users, loading } = this.state;
+
     return (
       <div>
-    <h1>Admin</h1>
-    <p>
-      Restricted area! Only users with the admin role are authorized.
-    </p>
-  </div>
+        <h1>Admin</h1>
+        <p>
+          The Admin Page is accessible by every signed in admin user.
+        </p>
+
+      </div>
     );
   }
 }

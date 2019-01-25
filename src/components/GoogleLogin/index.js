@@ -30,7 +30,7 @@ class SignInGoogleBase extends Component {
         this.props.history.push(ROUTES.LANDING);
       })
       .catch(error => {
-        this.setState({ error });
+         this.props.history.push(ROUTES.LANDING);
       });
 
     event.preventDefault();

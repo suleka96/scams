@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {  MDBRow, MDBCol,Col, Row, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBBtn, Navbar, NavbarBrand, NavbarNav, NavItem, NavLink, NavbarToggler, Collapse, FormInline, Dropdown, DropdownToggle, DropdownMenu,  DropdownItem, Container, Fa } from "mdbreact";
+import {  MDBRow, MDBCol,Col, Row, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBBtn, Navbar, NavbarBrand, NavbarNav, NavItem, NavLink, NavbarToggler, Collapse, Dropdown, DropdownToggle, DropdownMenu,  DropdownItem, Container, Fa } from "mdbreact";
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
-import { AuthUserContext, withAuthorization } from '../Session';
+import { AuthUserContext,withEmailVerification,withAuthorization } from '../Session';
 import "./style.css";
 import {withRouter} from "react-router-dom";
 import {withFirebase} from "../Firebase";
 import {compose} from "recompose";
+import { WithContext as ReactTags } from 'react-tag-input';
 
 const FORM_STATE = {
   reportedBy:'',
@@ -22,7 +23,6 @@ const FORM_STATE = {
 
 const FORM_STATE_TAG = {
   reportedBy:'',
-  taggedNames:'',
   blockchainTag: '',
   involvedTagAddress: '',
   tagDescription:'',
@@ -33,6 +33,13 @@ const FORM_STATE_TAG = {
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const Navigation = () => (
   <div>
@@ -54,8 +61,16 @@ class NavigationAuth extends Component {
             userData:null,
         };
 
+        this.state = {
+            tags: [],
+            suggestions: []
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmitTag = this.handleSubmitTag.bind(this);
+
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleAddition = this.handleAddition.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
     }
 
     componentDidMount() {
@@ -92,7 +107,11 @@ class NavigationAuth extends Component {
         event.preventDefault();
         const { scamName, blockchainScam, involvedScamAddress, scamType,website,scamDescription } = this.state;
         let today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+        let tags=[];
 
+        for (let x = 0; x < this.state.tags.length; x++) {
+            tags.push(this.state.tags[x].text);
+        }
 
         this.props.firebase.reportScams().push({
                     reportedBy:this.state.userData,
@@ -100,6 +119,7 @@ class NavigationAuth extends Component {
                     blockchain: blockchainScam,
                     involvedAddress: involvedScamAddress,
                     scamType: scamType,
+                    addressTags:tags,
                     website: website,
                     description: scamDescription,
                     time: today
@@ -108,19 +128,26 @@ class NavigationAuth extends Component {
         alert("Submitted Successfully!");
         this.setState({...FORM_STATE});
         this.setState({
+            tags: [],
+            suggestions: []});
+        this.setState({
             scamModal: !this.state.scamModal
         });
     }
 
     handleSubmitTag(event) {
         event.preventDefault();
-        const { taggedNames, blockchainTag, involvedTagAddress,tagDescription } = this.state;
+        const { blockchainTag, involvedTagAddress,tagDescription } = this.state;
         let today = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+        let tags=[];
 
+        for (let x = 0; x < this.state.tags.length; x++) {
+            tags.push(this.state.tags[x].text);
+        }
 
         this.props.firebase.tags().push({
                     taggedBy:this.state.userData,
-                    taggedNames: taggedNames,
+                    taggedNames: tags,
                     blockchain: blockchainTag,
                     involvedAddress: involvedTagAddress,
                     description: tagDescription,
@@ -130,8 +157,33 @@ class NavigationAuth extends Component {
         alert("Submitted Successfully!");
         this.setState({...FORM_STATE_TAG});
         this.setState({
+            tags: [],
+            suggestions: []});
+        this.setState({
             tagModal: !this.state.tagModal
         });
+    }
+
+    handleDelete(i) {
+        const { tags } = this.state;
+        this.setState({
+         tags: tags.filter((tag, index) => index !== i),
+        });
+    }
+
+    handleAddition(tag) {
+        this.setState(state => ({ tags: [...state.tags, tag] }));
+    }
+
+    handleDrag(tag, currPos, newPos) {
+        const tags = [...this.state.tags];
+        const newTags = tags.slice();
+
+        newTags.splice(currPos, 1);
+        newTags.splice(newPos, 0, tag);
+
+        // re-render
+        this.setState({ tags: newTags });
     }
 
   render() {
@@ -152,7 +204,6 @@ class NavigationAuth extends Component {
         } = this.state;
 
       const isInvalidTag =
-            taggedNames === '' ||
             involvedTagAddress === '' || tagDescription === '' ||
             blockchainTag === '' ;
 
@@ -161,6 +212,7 @@ class NavigationAuth extends Component {
           involvedScamAddress === '' || scamDescription === '' ||
           blockchainScam === '' || scamType === '';
 
+      const { tags, suggestions } = this.state;
       return (
           <div>
               <Navbar color="special-color-dark" dark expand="md">
@@ -181,13 +233,11 @@ class NavigationAuth extends Component {
                           </NavbarNav>
                           <NavbarNav right>
                               <NavItem>
-                                  <MDBBtn color="dark-green" onClick={this.scamToggle}><MDBIcon icon="plus"
-                                                                                                className="mr-1"/>Report
-                                      Scams</MDBBtn>
+                                  <MDBBtn color="danger" onClick={this.scamToggle}>
+                                      <MDBIcon icon="plus" className="mr-1"/>Report Scams</MDBBtn>
                               </NavItem>
                               <NavItem>
-                                  <MDBBtn color="amber" onClick={this.tagToggle}><MDBIcon icon="tags" className="mr-1"/>Add
-                                      Tags</MDBBtn>
+                                  <MDBBtn color="info" onClick={this.tagToggle}><MDBIcon icon="tags" className="mr-1"/>Tag Addresses</MDBBtn>
                               </NavItem>
                               <AuthUserContext.Consumer>
                                   {authUser => (
@@ -242,8 +292,9 @@ class NavigationAuth extends Component {
                                                       style={{marginLeft: "-6px"}}
                                                       value={blockchainScam}
                                                       onChange={event => this.setState(byPropKey('blockchainScam', event.target.value))}>
-                                                  <option>Choose Blockchain Type</option>
+                                                  <option>Choose Crypto Type</option>
                                                   <option>Bitcoin</option>
+                                                  <option>Other</option>
                                                   {/*<option>Monero</option>*/}
                                                   {/*<option>Ethereum</option>*/}
                                                   {/*<option>Ripple</option>*/}
@@ -307,6 +358,20 @@ class NavigationAuth extends Component {
                                               </select>
                                           </Col>
                                       </Row>
+                                      <Row className="form-group margin-bot">
+                                          <Col md="1">
+                                              <MDBIcon icon="tags" style={{fontSize: "30px"}}/>
+                                          </Col>
+                                          <Col md="11">
+                                              <ReactTags inline tags={tags}
+                                                         placeholder="Add new tag and Enter"
+                                                         suggestions={suggestions}
+                                                         handleDelete={this.handleDelete}
+                                                         handleAddition={this.handleAddition}
+                                                         handleDrag={this.handleDrag}
+                                                         delimiters={delimiters}/>
+                                          </Col>
+                                      </Row>
                                       <MDBInput
                                           label="Website (optional)"
                                           icon="globe"
@@ -332,7 +397,7 @@ class NavigationAuth extends Component {
                       </MDBModalBody>
                       <MDBModalFooter>
                           <MDBBtn color="primary" onClick={this.scamToggle}>Close</MDBBtn>
-                          <MDBBtn color="dark-green" type="submit" disabled={isInvalid}>
+                          <MDBBtn color="danger" type="submit" disabled={isInvalid}>
                               Report Now <MDBIcon icon="paper-plane-o" className="ml-1"/>
                           </MDBBtn>
                       </MDBModalFooter>
@@ -365,8 +430,9 @@ class NavigationAuth extends Component {
                                               style={{marginLeft: "-6px"}}
                                               value={blockchainTag}
                                               onChange={event => this.setState(byPropKey('blockchainTag', event.target.value))}>
-                                          <option>Choose Blockchain Type</option>
+                                          <option>Choose Crypto Type</option>
                                           <option>Bitcoin</option>
+                                          <option>Other</option>
                                           {/*<option>Monero</option>*/}
                                           {/*<option>Ethereum</option>*/}
                                           {/*<option>Ripple</option>*/}
@@ -374,17 +440,20 @@ class NavigationAuth extends Component {
                                       </select>
                                   </Col>
                               </Row>
-                              <MDBInput
-                                  label="Enter Tags with comma seperated"
-                                  icon="tags"
-                                  group
-                                  type="text"
-                                  validate
-                                  error="wrong"
-                                  success="right"
-                                  value={taggedNames}
-                                  onChange={event => this.setState(byPropKey('taggedNames', event.target.value))}
-                              />
+                              <Row className="form-group margin-bot">
+                                  <Col md="1">
+                                      <MDBIcon icon="tags" style={{fontSize: "30px"}}/>
+                                  </Col>
+                                  <Col md="11">
+                                      <ReactTags inline tags={tags}
+                                                 placeholder="Add new tag and Enter"
+                                                 suggestions={suggestions}
+                                                 handleDelete={this.handleDelete}
+                                                 handleAddition={this.handleAddition}
+                                                 handleDrag={this.handleDrag}
+                                                 delimiters={delimiters}/>
+                                  </Col>
+                              </Row>
                               <MDBInput
                                   type="textarea"
                                   rows="2"
@@ -397,7 +466,7 @@ class NavigationAuth extends Component {
                       </MDBModalBody>
                       <MDBModalFooter>
                           <MDBBtn color="primary" onClick={this.tagToggle}>Close</MDBBtn>
-                          <MDBBtn color="amber" type="submit" disabled={isInvalidTag}>
+                          <MDBBtn color="info" type="submit" disabled={isInvalidTag}>
                               Tag Now <MDBIcon icon="paper-plane-o" className="ml-1"/>
                           </MDBBtn>
                       </MDBModalFooter>
@@ -441,9 +510,12 @@ class NavigationNonAuth extends Component {
   }
 }
 
+const condition = authUser => !!authUser;
 const NavigationAuth2 = compose(
   withRouter,
   withFirebase,
+  withEmailVerification,
+  withAuthorization(condition),
 )(NavigationAuth);
 
 export default Navigation;
