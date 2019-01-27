@@ -94,8 +94,8 @@ class ExplorerInnerPage extends Component {
     render() {
         const {scams} = this.state;
         const {tags, loading} = this.state;
-        const isInvalid = searchField === '';
         const {searchField} = this.state;
+        const isInvalid = searchField === '';
 
         return (
             <MDBContainer fluid>
@@ -184,9 +184,12 @@ const ScamList = ({ scams }) => (
                             <b>Description:</b> {scam.description}<br/>
                             <b>Websites:</b> {scam.website}<br/>
                             <b>Tags: </b>
-                            {scam.addressTags.map((keys, i) => (
-                                <MDBBadge key={i} color="dark" style={{marginRight: "5px"}}>{keys} </MDBBadge>
-                            ))}<br/>
+                            {scam.addressTags !== undefined ?
+                                scam.addressTags.map((keys, i) => (
+                                    <MDBBadge key={i} color="dark" style={{marginRight: "5px"}}>{keys} </MDBBadge>
+                                )) :
+                                <b>-</b>
+                            }<br/>
                             <small className="text-muted"><b>Blockchain:</b> {scam.blockchain} / <b>Type:</b> {scam.scamType}</small>
                         </MDBCardText>
                     </MDBCardBody>

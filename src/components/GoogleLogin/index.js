@@ -40,20 +40,22 @@ class SignInGoogleBase extends Component {
     const { error } = this.state;
 
     return (
-      <form onSubmit={this.onSubmit}>
+        <div>
           <MDBBtn
               type="submit"
               color="red darken-3"
               rounded
               className="z-depth-1a"
+              onClick={this.onSubmit}
           >
+
               Sign in with
               <MDBIcon icon="google-plus" style={{marginLeft: "5px"}}
                        className="white-text"/>
           </MDBBtn>
 
         {error && <p>{error.message}</p>}
-      </form>
+     </div>
     );
   }
 }

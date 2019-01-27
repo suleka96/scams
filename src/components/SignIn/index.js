@@ -87,9 +87,9 @@ class SignInFormBase extends Component {
                                             type="password"
                                             validate
                                         />
-                                        <p className="font-small blue-text d-flex justify-content-end pb-3">
+                                        <div className="font-small blue-text d-flex justify-content-end pb-3">
                                             <PasswordForgetLink />
-                                        </p>
+                                        </div>
                                     </div>
                                     <div className="text-center mt-4">
                                         <button
