@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AuthUserContext } from '../Session';
-import {  MDBCardHeader,MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBAlert,MDBListGroup, MDBJumbotron, MDBContainer,Col, Fa, Row } from "mdbreact";
+import {  MDBBadge,MDBCardHeader,MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBAlert,MDBListGroup, MDBJumbotron, MDBContainer,Col, Fa, Row } from "mdbreact";
 import "./style.css";
 import {withFirebase} from "../Firebase";
 import {withRouter} from "react-router-dom";
@@ -167,7 +167,8 @@ class SomeComponent extends Component {
 const ScamList = ({ scams }) => (
     <Row>
         <Col md="12">
-            {scams.map(scam => (
+            {scams.length > 0 ?
+             scams.map(scam => (
                 <MDBCard style={{marginTop: "1rem"}} key={scam.scamid} >
                     <MDBCardHeader color="blue-grey darken-3" className="mb-1 text-muted d-flex w-100 justify-content-between" >
                         <a className="address_hover" href={'/explorer/'+ scam.involvedAddress} style={{ color:"white"}}>ADDRESS: {scam.involvedAddress}</a>
@@ -182,7 +183,9 @@ const ScamList = ({ scams }) => (
                         </MDBCardText>
                     </MDBCardBody>
                 </MDBCard>
-            ))}
+            )):
+                <h5>No any scam data</h5>
+            }
         </Col>
     </Row>
 );
@@ -191,7 +194,8 @@ const TagList = ({ tags }) => (
     <Row>
         <Col md="12">
             <MDBListGroup>
-                {tags.map(tag => (
+                {tags.length > 0 ?
+                 tags.map(tag => (
                     <MDBCard style={{marginTop: "1rem"}} key={tag.tagid}>
                         <MDBCardHeader color=" mdb-color darken-3" className="mb-1 text-muted d-flex w-100 justify-content-between">
                             <a className="address_hover" href={'/explorer/'+ tag.involvedAddress} style={{ color:"white"}}>ADDRESS: {tag.involvedAddress}</a>
@@ -199,7 +203,9 @@ const TagList = ({ tags }) => (
                         </MDBCardHeader>
                         <MDBCardBody>
                             <MDBCardTitle>
-                                {tag.taggedNames}
+                                {tag.taggedNames.map((keys, i) => (
+                                    <MDBBadge key={i} color="info" style={{marginRight:"5px"}}>{keys} </MDBBadge>
+                                ))}
                             </MDBCardTitle>
                             <MDBCardText>
                                 <b>Description:</b> {tag.description}<br/>
@@ -207,13 +213,15 @@ const TagList = ({ tags }) => (
                             </MDBCardText>
                         </MDBCardBody>
                     </MDBCard>
-                ))}
+                )) :
+                    <h5>No any tagged data</h5>
+                }
             </MDBListGroup>
         </Col>
     </Row>
 );
 
-const NortificationPanel = () =>
+const NortificationPanel = () => (
     <Row style={{
         marginTop: "-30px",
         marginBottom: "30px",
@@ -227,10 +235,11 @@ const NortificationPanel = () =>
             </MDBAlert>
         </Col>
     </Row>
+);
 
-const NortificationPanel2 = () =>
+const NortificationPanel2 = () => (
     <Row/>
-
+);
 
 const LandingDataPage = compose(
   withRouter,

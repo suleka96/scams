@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  Fa, MDBCardHeader,MDBCard, MDBCardBody, MDBCardTitle, MDBCardText,MDBListGroup, MDBJumbotron, MDBContainer,Col, Row } from "mdbreact";
+import {  MDBBadge, Fa, MDBCardHeader,MDBCard, MDBCardBody, MDBCardTitle, MDBCardText,MDBListGroup, MDBJumbotron, MDBContainer,Col, Row } from "mdbreact";
 import "./style.css";
 import {withRouter} from "react-router-dom";
 import {compose} from "recompose";
@@ -183,6 +183,10 @@ const ScamList = ({ scams }) => (
                         <MDBCardText>
                             <b>Description:</b> {scam.description}<br/>
                             <b>Websites:</b> {scam.website}<br/>
+                            <b>Tags: </b>
+                            {scam.addressTags.map((keys, i) => (
+                                <MDBBadge key={i} color="dark" style={{marginRight: "5px"}}>{keys} </MDBBadge>
+                            ))}<br/>
                             <small className="text-muted"><b>Blockchain:</b> {scam.blockchain} / <b>Type:</b> {scam.scamType}</small>
                         </MDBCardText>
                     </MDBCardBody>
@@ -210,7 +214,9 @@ const TagList = ({ tags }) => (
                             </MDBCardHeader>
                             <MDBCardBody>
                                 <MDBCardTitle>
-                                    {tag.taggedNames}
+                                    {tag.taggedNames.map((keys, i) => (
+                                        <MDBBadge key={i} color="info" style={{marginRight: "5px"}}>{keys} </MDBBadge>
+                                    ))}
                                 </MDBCardTitle>
                                 <MDBCardText>
                                     <b>Description:</b> {tag.description}<br/>
