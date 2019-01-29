@@ -25,3 +25,14 @@
 .address_hover:hover{
   text-decoration: underline;
 }
+
+.votes{
+    background-color: transparent;
+    box-shadow: none;
+    border:none;
+    margin-left:-5px;
+}
+
+.votes:hover{
+    cursor: pointer;
+}

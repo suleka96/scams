@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AuthUserContext } from '../Session';
-import {  MDBBadge,MDBCardHeader,MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBAlert,MDBListGroup, MDBJumbotron, MDBContainer,Col, Fa, Row } from "mdbreact";
+import {  MDBIcon,MDBBadge,MDBCardHeader,MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBAlert,MDBListGroup, MDBJumbotron, MDBContainer,Col, Fa, Row } from "mdbreact";
 import "./style.css";
 import {withFirebase} from "../Firebase";
 import {withRouter} from "react-router-dom";
@@ -18,12 +18,19 @@ class SomeComponent extends Component {
             scams: [],
             tags: [],
             searchField:"",
+            userData:null,
         };
+
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         this.setState({loading: true});
+        this.props.firebase.auth.onAuthStateChanged(
+            authUser => {
+                this.setState({userData: authUser.email})
+            });
+
         this.props.firebase.reportScams().on('value', snapshot => {
             const scamObject = snapshot.val();
 
@@ -31,7 +38,36 @@ class SomeComponent extends Component {
                 const scamList = Object.keys(scamObject).map(key => ({
                     ...scamObject[key],
                     scamid: key,
+                    isUpVoted:false,
+                    isDownVoted:false,
                 }));
+
+                for (let key in scamList) {
+                    for (let key2 in scamList[key]){
+                        if (key2 === 'upVotedBy'){
+                            for (let key3 in scamList[key]["upVotedBy"]){
+                                if (scamList[key]["upVotedBy"][key3] === this.state.userData){
+                                    scamList[key]["isUpVoted"] = true;
+                                    scamList[key]["isDownVoted"] = false;
+                                    break;
+
+                                }
+                            }
+                        }
+
+                        if (key2 === 'downVotedBy'){
+                            for (let key3 in scamList[key]["downVotedBy"]){
+                                if (scamList[key]["downVotedBy"][key3] === this.state.userData){
+                                     scamList[key]["isDownVoted"] = true;
+                                     scamList[key]["isUpVoted"] = false;
+                                     break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // console.log(scamList);
 
                 this.setState({
                     scams: scamList.reverse().slice(0, 10),
@@ -78,6 +114,62 @@ class SomeComponent extends Component {
         const {searchField} = this.state;
         const location = "/explorer/"+searchField;
         this.props.history.push(location);
+    }
+
+    handleUpVote(Id, currentValue, index){
+        let currentUser = this.state.userData;
+        console.log(currentUser);
+        let updatedScams = this.state.scams;
+        updatedScams[index].isUpVoted = true;
+
+        let up_reference = this.props.firebase.reportScams().child(Id).child('downVotedBy');
+        if(updatedScams[index].isDownVoted === true){
+            up_reference.on('child_added',function(data) {
+                if(data.val() === currentUser){
+                    up_reference.child(data.key).remove();
+                }
+            });
+            updatedScams[index].upVotes = currentValue+2;
+            this.props.firebase.reportScams().child(Id).update({'upVotes':currentValue+2});
+            this.props.firebase.reportScams().child(Id).child('upVotedBy').push(currentUser);
+        }else{
+            updatedScams[index].upVotes = currentValue+1;
+            this.props.firebase.reportScams().child(Id).update({'upVotes':currentValue+1});
+            this.props.firebase.reportScams().child(Id).child('upVotedBy').push(currentUser);
+        }
+
+        if(updatedScams[index].isDownVoted){
+            updatedScams[index].isDownVoted = false;
+        }
+        this.setState({scams: updatedScams});
+    }
+
+    handleDownVote(Id, currentValue, index){
+        let currentUser = this.state.userData;
+
+        let updatedScams = this.state.scams;
+        updatedScams[index].isDownVoted = true;
+
+        let down_reference = this.props.firebase.reportScams().child(Id).child('upVotedBy');
+        if(updatedScams[index].isUpVoted === true){
+            down_reference.on('child_added',function(data) {
+                if(data.val() === currentUser){
+                    down_reference.child(data.key).remove();
+                }
+            });
+            updatedScams[index].downVotes = currentValue+2;
+            this.props.firebase.reportScams().child(Id).update({'downVotes':currentValue+2});
+            this.props.firebase.reportScams().child(Id).child('downVotedBy').push(currentUser);
+        }else{
+            updatedScams[index].downVotes = currentValue+1;
+            this.props.firebase.reportScams().child(Id).update({'downVotes':currentValue+1});
+            this.props.firebase.reportScams().child(Id).child('downVotedBy').push(currentUser);
+        }
+
+        if(updatedScams[index].isUpVoted){
+            updatedScams[index].isUpVoted = false;
+        }
+        this.setState({scams: updatedScams});
     }
 
     render() {
@@ -146,7 +238,7 @@ class SomeComponent extends Component {
                             <hr/>
 
                             {loading && <div>Loading ...</div>}
-                            <ScamList scams={scams}/>
+                            <ScamList scams={scams} firebase={this.props.firebase}  handleUpVote={this.handleUpVote.bind(this)} handleDownVote={this.handleDownVote.bind(this)} />
                         </Col>
                     </Row>
                     <Row style={{marginTop:"50px"}}>
@@ -164,31 +256,64 @@ class SomeComponent extends Component {
     }
 }
 
-const ScamList = ({ scams }) => (
-    <Row>
-        <Col md="12">
-            {scams.length > 0 ?
-             scams.map(scam => (
-                <MDBCard style={{marginTop: "1rem"}} key={scam.scamid} >
-                    <MDBCardHeader color="blue-grey darken-3" className="mb-1 text-muted d-flex w-100 justify-content-between" >
-                        <a className="address_hover" href={'/explorer/'+ scam.involvedAddress} style={{ color:"white"}}>ADDRESS: {scam.involvedAddress}</a>
-                    <small style={{textAlign:"right", color:"#f5f5f5"}}><b>REPORTED DATE:</b> {scam.time}</small></MDBCardHeader>
-                    <MDBCardBody>
-                        <MDBCardTitle>
-                            {scam.scamName}
-                        </MDBCardTitle>
-                        <MDBCardText>
-                            <b>Description:</b> {scam.description}<br/>
-                            <small className="text-muted"><b>Blockchain:</b> {scam.blockchain} / <b>Type:</b> {scam.scamType}</small>
-                        </MDBCardText>
-                    </MDBCardBody>
-                </MDBCard>
-            )):
-                <h5>No any scam data</h5>
-            }
-        </Col>
-    </Row>
-);
+class ScamList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            scams: [],
+        };
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState({scams: newProps.scams});
+    }
+
+    render() {
+        return (
+            <Row>
+                <Col md="12">
+                    {this.state.scams.length > 0 ?
+                        this.state.scams.map((scam,i) => (
+                            <MDBCard style={{marginTop: "1rem"}} key={scam.scamid}>
+                                <MDBCardHeader color="blue-grey darken-3"
+                                               className="mb-1 text-muted d-flex w-100 justify-content-between">
+                                    <a className="address_hover" href={'/explorer/' + scam.involvedAddress}
+                                       style={{color: "white"}}>ADDRESS: {scam.involvedAddress}</a>
+                                    <small style={{textAlign: "right", color: "#f5f5f5"}}><b>REPORTED
+                                        DATE:</b> {scam.time}</small>
+                                </MDBCardHeader>
+                                <MDBCardBody>
+                                    <Row>
+                                        <Col md="11">
+                                            <MDBCardTitle>
+                                                {scam.scamName}
+                                            </MDBCardTitle>
+                                            <MDBCardText>
+                                                <b>Description:</b> {scam.description}<br/>
+                                                <small className="text-muted">
+                                                    <b>Blockchain:</b> {scam.blockchain} / <b>Type:</b> {scam.scamType}
+                                                </small>
+                                            </MDBCardText>
+                                        </Col>
+                                        <Col md="1">
+                                            <div style={{marginBottom: "-15px", marginTop: "-15px"}}>
+                                                <button className="votes"  disabled={scam.isUpVoted} onClick={() => this.props.handleUpVote(scam.scamid,scam.upVotes,i)}><MDBIcon  icon="angle-up" style={{fontSize: "35px", fontWeight: "bold"}} /></button>
+                                                <h2 style={{marginLeft:"0px", color: "#6c757d"}}>{scam.upVotes - scam.downVotes}</h2>
+                                                <button className="votes" disabled={scam.isDownVoted}  onClick={() => this.props.handleDownVote(scam.scamid,scam.downVotes,i)}><MDBIcon  icon="angle-down" style={{fontSize: "35px", marginTop: "-10px", fontWeight: "bold"}} /></button>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </MDBCardBody>
+                            </MDBCard>
+                        )) :
+                        <h5>No any scam data</h5>
+                    }
+                </Col>
+            </Row>
+        );
+    }
+}
+
 
 const TagList = ({ tags }) => (
     <Row>
