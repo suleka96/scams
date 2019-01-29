@@ -104,10 +104,10 @@ class SomeComponent extends Component {
         });
     }
 
-    componentWillUnmount() {
-        this.props.firebase.reportScams().off();
-        this.props.firebase.tags().off();
-    }
+    // componentWillUnmount() {
+    //     this.props.firebase.reportScams().off();
+    //     this.props.firebase.tags().off();
+    // }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -118,30 +118,46 @@ class SomeComponent extends Component {
 
     handleUpVote(Id, currentValue, index){
         let currentUser = this.state.userData;
-        console.log(currentUser);
+
         let updatedScams = this.state.scams;
+        //disable up vote for user
         updatedScams[index].isUpVoted = true;
 
+        //delete name from down vote list
         let up_reference = this.props.firebase.reportScams().child(Id).child('downVotedBy');
         if(updatedScams[index].isDownVoted === true){
-            up_reference.on('child_added',function(data) {
+            up_reference.once('child_added',function(data) {
                 if(data.val() === currentUser){
                     up_reference.child(data.key).remove();
                 }
             });
-            updatedScams[index].upVotes = currentValue+2;
-            this.props.firebase.reportScams().child(Id).update({'upVotes':currentValue+2});
-            this.props.firebase.reportScams().child(Id).child('upVotedBy').push(currentUser);
+            updatedScams[index].voteCount = currentValue+2;
+            this.props.firebase.reportScams().child(Id).update({'voteCount':currentValue+2});
+
+            //remove from local storage
+            let index_arr = updatedScams[index]["downVotedBy"].indexOf(currentUser);
+            if (index_arr > -1) updatedScams[index]["downVotedBy"].splice(index_arr, 1);
         }else{
-            updatedScams[index].upVotes = currentValue+1;
-            this.props.firebase.reportScams().child(Id).update({'upVotes':currentValue+1});
-            this.props.firebase.reportScams().child(Id).child('upVotedBy').push(currentUser);
+            updatedScams[index].voteCount = currentValue+1;
+            this.props.firebase.reportScams().child(Id).update({'voteCount':currentValue+1});
         }
 
+        //update state list of up vote users
+        if(updatedScams[index]["upVotedBy"] !== undefined){
+            updatedScams[index]["upVotedBy"].push(currentUser);
+            //push user name for up vote list
+            this.props.firebase.reportScams().child(Id).child('upVotedBy').update(updatedScams[index]["upVotedBy"]);
+        }else{
+            updatedScams[index]["upVotedBy"] = [currentUser];
+            this.props.firebase.reportScams().child(Id).child('upVotedBy').set(updatedScams[index]["upVotedBy"]);
+        }
+
+        //enable down vote for user
         if(updatedScams[index].isDownVoted){
             updatedScams[index].isDownVoted = false;
         }
         this.setState({scams: updatedScams});
+
     }
 
     handleDownVote(Id, currentValue, index){
@@ -152,19 +168,31 @@ class SomeComponent extends Component {
 
         let down_reference = this.props.firebase.reportScams().child(Id).child('upVotedBy');
         if(updatedScams[index].isUpVoted === true){
-            down_reference.on('child_added',function(data) {
+            down_reference.once('child_added',function(data) {
                 if(data.val() === currentUser){
                     down_reference.child(data.key).remove();
                 }
             });
-            updatedScams[index].downVotes = currentValue+2;
-            this.props.firebase.reportScams().child(Id).update({'downVotes':currentValue+2});
-            this.props.firebase.reportScams().child(Id).child('downVotedBy').push(currentUser);
+            updatedScams[index].voteCount = currentValue-2;
+            this.props.firebase.reportScams().child(Id).update({'voteCount':currentValue-2});
+
+            //remove from local storage
+            let index_arr = updatedScams[index]["upVotedBy"].indexOf(currentUser);
+            if (index_arr > -1) updatedScams[index]["upVotedBy"].splice(index_arr, 1);
         }else{
-            updatedScams[index].downVotes = currentValue+1;
-            this.props.firebase.reportScams().child(Id).update({'downVotes':currentValue+1});
-            this.props.firebase.reportScams().child(Id).child('downVotedBy').push(currentUser);
+            updatedScams[index].voteCount = currentValue-1;
+            this.props.firebase.reportScams().child(Id).update({'voteCount':currentValue-1});
         }
+
+        //update state list of down vote users
+        if(updatedScams[index]["downVotedBy"] !== undefined){
+            updatedScams[index]["downVotedBy"].push(currentUser);
+            this.props.firebase.reportScams().child(Id).child('downVotedBy').update(updatedScams[index]["downVotedBy"]);
+        }else{
+            updatedScams[index]["downVotedBy"] = [currentUser];
+            this.props.firebase.reportScams().child(Id).child('downVotedBy').set(updatedScams[index]["downVotedBy"]);
+        }
+
 
         if(updatedScams[index].isUpVoted){
             updatedScams[index].isUpVoted = false;
@@ -297,9 +325,9 @@ class ScamList extends Component {
                                         </Col>
                                         <Col md="1">
                                             <div style={{marginBottom: "-15px", marginTop: "-15px"}}>
-                                                <button className="votes"  disabled={scam.isUpVoted} onClick={() => this.props.handleUpVote(scam.scamid,scam.upVotes,i)}><MDBIcon  icon="angle-up" style={{fontSize: "35px", fontWeight: "bold"}} /></button>
-                                                <h2 style={{marginLeft:"0px", color: "#6c757d"}}>{scam.upVotes - scam.downVotes}</h2>
-                                                <button className="votes" disabled={scam.isDownVoted}  onClick={() => this.props.handleDownVote(scam.scamid,scam.downVotes,i)}><MDBIcon  icon="angle-down" style={{fontSize: "35px", marginTop: "-10px", fontWeight: "bold"}} /></button>
+                                                <button className="votes"  disabled={scam.isUpVoted} onClick={() => this.props.handleUpVote(scam.scamid,scam.voteCount,i)}><MDBIcon  icon="angle-up" style={{fontSize: "35px", fontWeight: "bold"}} /></button>
+                                                <h2 style={{marginLeft:"0px", color: "#6c757d"}}>{scam.voteCount}</h2>
+                                                <button className="votes" disabled={scam.isDownVoted}  onClick={() => this.props.handleDownVote(scam.scamid,scam.voteCount,i)}><MDBIcon  icon="angle-down" style={{fontSize: "35px", marginTop: "-10px", fontWeight: "bold"}} /></button>
                                             </div>
                                         </Col>
                                     </Row>

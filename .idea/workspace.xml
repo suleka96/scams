@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2dbacc7b-1509-4f9b-846a-1a69b0ae6178" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" afterPath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/components/Explorer/index.js" afterPath="$PROJECT_DIR$/src/components/Explorer/index.js" />
       <change beforePath="$PROJECT_DIR$/src/components/Landing/index.js" afterPath="$PROJECT_DIR$/src/components/Landing/index.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Landing/style.css" afterPath="$PROJECT_DIR$/src/components/Landing/style.css" />
       <change beforePath="$PROJECT_DIR$/src/components/Navigation/index.js" afterPath="$PROJECT_DIR$/src/components/Navigation/index.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,27 +18,26 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/Landing/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="137" column="79" lean-forward="false" selection-start-line="137" selection-start-column="75" selection-end-line="137" selection-end-column="79" />
+            <state relative-caret-position="557">
+              <caret line="200" column="5" lean-forward="false" selection-start-line="200" selection-start-column="5" selection-end-line="200" selection-end-column="5" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
-                <element signature="n#!!block;n#constructor#0;n#SomeComponent#0" expanded="false" />
                 <element signature="e#945#1018#0" expanded="false" />
                 <element signature="e#1088#2917#0" expanded="false" />
                 <element signature="e#2979#3535#0" expanded="false" />
-                <element signature="n#!!block;n#componentWillUnmount#0;n#SomeComponent#0" expanded="false" />
                 <element signature="n#!!block;n#handleSubmit#0;n#SomeComponent#0" expanded="false" />
-                <element signature="n#!!block;n#render#0;n#SomeComponent#0" expanded="false" />
-                <element signature="e#6605#6847#0" expanded="false" />
-                <element signature="e#6870#9071#0" expanded="false" />
-                <element signature="e#9120#9326#0" expanded="false" />
+                <element signature="n#!!block;n#handleUpVote#0;n#SomeComponent#0" expanded="false" />
+                <element signature="n#!!block;n#handleDownVote#0;n#SomeComponent#0" expanded="false" />
+                <element signature="e#6105#6687#0" expanded="false" />
+                <element signature="e#7795#8037#0" expanded="false" />
+                <element signature="e#8060#10261#0" expanded="false" />
+                <element signature="e#10310#10516#0" expanded="false" />
                 <element signature="n#ScamList#0" expanded="false" />
                 <element signature="n#!!block;n#constructor#0;n#ScamList#0" expanded="false" />
                 <element signature="n#!!block;n#componentWillReceiveProps#0;n#ScamList#0" expanded="false" />
-                <element signature="n#!!block;n#render#0;n#ScamList#0" expanded="false" />
-                <element signature="e#13478#14951#0" expanded="false" />
-                <element signature="e#15007#15181#0" expanded="false" />
-                <element signature="e#15192#15409#0" expanded="false" />
+                <element signature="e#14655#16128#0" expanded="false" />
+                <element signature="e#16184#16358#0" expanded="false" />
+                <element signature="e#16369#16586#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -49,70 +46,30 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Explorer/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="30" column="24" lean-forward="false" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
+            <state relative-caret-position="612">
+              <caret line="403" column="0" lean-forward="true" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
               <folding>
+                <element signature="e#0#41#0" expanded="true" />
                 <element signature="n#!!block;n#constructor#0;n#ExplorerInnerPage#0" expanded="false" />
                 <element signature="n#!!block;n#componentWillMount#0;n#ExplorerInnerPage#0" expanded="false" />
                 <element signature="n#!!block;n#componentDidMount#0;n#ExplorerInnerPage#0" expanded="false" />
-                <element signature="e#1855#2464#0" expanded="false" />
+                <element signature="e#1084#1157#0" expanded="false" />
+                <element signature="e#1294#3057#0" expanded="false" />
+                <element signature="e#3186#3719#0" expanded="false" />
                 <element signature="n#!!block;n#componentWillUnmount#0;n#ExplorerInnerPage#0" expanded="false" />
                 <element signature="n#!!block;n#handleSubmit#0;n#ExplorerInnerPage#0" expanded="false" />
+                <element signature="n#!!block;n#handleUpVote#0;n#ExplorerInnerPage#0" expanded="false" />
+                <element signature="n#!!block;n#handleDownVote#0;n#ExplorerInnerPage#0" expanded="false" />
+                <element signature="e#6312#6894#0" expanded="false" />
                 <element signature="n#!!block;n#render#0;n#ExplorerInnerPage#0" expanded="false" />
-                <element signature="e#3049#6384#0" expanded="false" />
-                <element signature="e#6456#8075#0" expanded="false" />
-                <element signature="e#8127#9788#0" expanded="false" />
+                <element signature="e#7940#11403#0" expanded="false" />
+                <element signature="n#ScamList#0" expanded="false" />
+                <element signature="n#!!block;n#constructor#0;n#ScamList#0" expanded="false" />
+                <element signature="n#!!block;n#componentWillReceiveProps#0;n#ScamList#0" expanded="false" />
+                <element signature="n#!!block;n#render#0;n#ScamList#0" expanded="false" />
+                <element signature="e#11711#16415#0" expanded="false" />
+                <element signature="e#16473#18134#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Navigation/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="147" column="32" lean-forward="true" selection-start-line="147" selection-start-column="32" selection-end-line="147" selection-end-column="32" />
-              <folding>
-                <element signature="e#1253#1423#0" expanded="false" />
-                <element signature="n#!!block;n#componentDidMount#0;n#NavigationAuth#0" expanded="false" />
-                <element signature="e#2267#2297#0" expanded="false" />
-                <element signature="e#2377#2466#0" expanded="false" />
-                <element signature="e#2494#2582#0" expanded="false" />
-                <element signature="e#2607#2693#0" expanded="false" />
-                <element signature="e#2722#2816#0" expanded="false" />
-                <element signature="e#2842#2930#0" expanded="false" />
-                <element signature="n#!!block;n#handleSubmitTag#0;n#NavigationAuth#0" expanded="false" />
-                <element signature="n#!!block;n#handleDelete#0;n#NavigationAuth#0" expanded="false" />
-                <element signature="n#!!block;n#handleAddition#0;n#NavigationAuth#0" expanded="false" />
-                <element signature="n#!!block;n#handleDrag#0;n#NavigationAuth#0" expanded="false" />
-                <element signature="n#!!block;n#render#0;n#NavigationAuth#0" expanded="false" />
-                <element signature="e#7989#11225#0" expanded="false" />
-                <element signature="e#11284#21365#0" expanded="false" />
-                <element signature="e#21417#25584#0" expanded="false" />
-                <element signature="e#21650#25138#0" expanded="false" />
-                <element signature="e#25643#26166#0" expanded="false" />
-                <element signature="e#26218#26744#0" expanded="false" />
-                <element signature="n#NavigationNonAuth#0" expanded="false" />
-                <element signature="n#!!block;n#constructor#0;n#NavigationNonAuth#0" expanded="false" />
-                <element signature="e#27274#27304#0" expanded="false" />
-                <element signature="e#27384#27473#0" expanded="false" />
-                <element signature="e#27614#27700#0" expanded="false" />
-                <element signature="n#!!block;n#handleDelete#0;n#NavigationNonAuth#0" expanded="false" />
-                <element signature="n#!!block;n#handleAddition#0;n#NavigationNonAuth#0" expanded="false" />
-                <element signature="n#!!block;n#handleDrag#0;n#NavigationNonAuth#0" expanded="false" />
-                <element signature="e#28340#29955#0" expanded="false" />
-                <element signature="e#39935#42859#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Landing/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="18" lean-forward="false" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -133,6 +90,7 @@
       <find>this.props.firebase.user</find>
       <find>Add new tag</find>
       <find>MDBIcon</find>
+      <find>[index].upVotedBy</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -171,7 +129,6 @@
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/src/components/Footer/index.js" />
         <option value="$PROJECT_DIR$/src/components/App/index.js" />
-        <option value="$PROJECT_DIR$/src/components/Explorer/index.js" />
         <option value="$PROJECT_DIR$/src/components/SignUp/index.js" />
         <option value="$PROJECT_DIR$/src/components/Admin/index.js" />
         <option value="$PROJECT_DIR$/src/components/Session/withEmailVerification.js" />
@@ -181,6 +138,7 @@
         <option value="$PROJECT_DIR$/src/components/Landing/style.css" />
         <option value="$PROJECT_DIR$/src/components/Navigation/index.js" />
         <option value="$PROJECT_DIR$/src/components/Landing/index.js" />
+        <option value="$PROJECT_DIR$/src/components/Explorer/index.js" />
       </list>
     </option>
   </component>
@@ -239,27 +197,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="Explorer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="scams" type="b2602c69:ProjectViewProjectNode" />
-              <item name="scams" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Landing" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="scams" type="b2602c69:ProjectViewProjectNode" />
-              <item name="scams" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Navigation" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="scams" type="b2602c69:ProjectViewProjectNode" />
-              <item name="scams" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="SignIn" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -361,7 +298,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -700,29 +637,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Explorer/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="30" column="24" lean-forward="false" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#ExplorerInnerPage#0" expanded="false" />
-            <element signature="n#!!block;n#componentWillMount#0;n#ExplorerInnerPage#0" expanded="false" />
-            <element signature="n#!!block;n#componentDidMount#0;n#ExplorerInnerPage#0" expanded="false" />
-            <element signature="e#1855#2464#0" expanded="false" />
-            <element signature="n#!!block;n#componentWillUnmount#0;n#ExplorerInnerPage#0" expanded="false" />
-            <element signature="n#!!block;n#handleSubmit#0;n#ExplorerInnerPage#0" expanded="false" />
-            <element signature="n#!!block;n#render#0;n#ExplorerInnerPage#0" expanded="false" />
-            <element signature="e#3049#6384#0" expanded="false" />
-            <element signature="e#6456#8075#0" expanded="false" />
-            <element signature="e#8127#9788#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Navigation/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="147" column="32" lean-forward="true" selection-start-line="147" selection-start-column="32" selection-end-line="147" selection-end-column="32" />
+        <state relative-caret-position="200">
+          <caret line="116" column="24" lean-forward="false" selection-start-line="116" selection-start-column="24" selection-end-line="116" selection-end-column="24" />
           <folding>
             <element signature="e#1253#1423#0" expanded="false" />
             <element signature="n#!!block;n#componentDidMount#0;n#NavigationAuth#0" expanded="false" />
@@ -732,54 +650,83 @@
             <element signature="e#2607#2693#0" expanded="false" />
             <element signature="e#2722#2816#0" expanded="false" />
             <element signature="e#2842#2930#0" expanded="false" />
+            <element signature="n#!!block;n#handleSubmit#0;n#NavigationAuth#0" expanded="false" />
             <element signature="n#!!block;n#handleSubmitTag#0;n#NavigationAuth#0" expanded="false" />
             <element signature="n#!!block;n#handleDelete#0;n#NavigationAuth#0" expanded="false" />
             <element signature="n#!!block;n#handleAddition#0;n#NavigationAuth#0" expanded="false" />
             <element signature="n#!!block;n#handleDrag#0;n#NavigationAuth#0" expanded="false" />
             <element signature="n#!!block;n#render#0;n#NavigationAuth#0" expanded="false" />
-            <element signature="e#7989#11225#0" expanded="false" />
-            <element signature="e#11284#21365#0" expanded="false" />
-            <element signature="e#21417#25584#0" expanded="false" />
-            <element signature="e#21650#25138#0" expanded="false" />
-            <element signature="e#25643#26166#0" expanded="false" />
-            <element signature="e#26218#26744#0" expanded="false" />
+            <element signature="e#7940#11176#0" expanded="false" />
+            <element signature="e#11235#21316#0" expanded="false" />
+            <element signature="e#21368#25535#0" expanded="false" />
+            <element signature="e#21601#25089#0" expanded="false" />
+            <element signature="e#25594#26117#0" expanded="false" />
+            <element signature="e#26169#26695#0" expanded="false" />
             <element signature="n#NavigationNonAuth#0" expanded="false" />
             <element signature="n#!!block;n#constructor#0;n#NavigationNonAuth#0" expanded="false" />
-            <element signature="e#27274#27304#0" expanded="false" />
-            <element signature="e#27384#27473#0" expanded="false" />
-            <element signature="e#27614#27700#0" expanded="false" />
+            <element signature="e#27225#27255#0" expanded="false" />
+            <element signature="e#27335#27424#0" expanded="false" />
+            <element signature="e#27565#27651#0" expanded="false" />
             <element signature="n#!!block;n#handleDelete#0;n#NavigationNonAuth#0" expanded="false" />
             <element signature="n#!!block;n#handleAddition#0;n#NavigationNonAuth#0" expanded="false" />
             <element signature="n#!!block;n#handleDrag#0;n#NavigationNonAuth#0" expanded="false" />
-            <element signature="e#28340#29955#0" expanded="false" />
-            <element signature="e#39935#42859#0" expanded="false" />
+            <element signature="e#28291#29906#0" expanded="false" />
+            <element signature="e#39886#42810#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Explorer/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="403" column="0" lean-forward="true" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="n#!!block;n#constructor#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="n#!!block;n#componentWillMount#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="n#!!block;n#componentDidMount#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="e#1084#1157#0" expanded="false" />
+            <element signature="e#1294#3057#0" expanded="false" />
+            <element signature="e#3186#3719#0" expanded="false" />
+            <element signature="n#!!block;n#componentWillUnmount#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="n#!!block;n#handleSubmit#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="n#!!block;n#handleUpVote#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="n#!!block;n#handleDownVote#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="e#6312#6894#0" expanded="false" />
+            <element signature="n#!!block;n#render#0;n#ExplorerInnerPage#0" expanded="false" />
+            <element signature="e#7940#11403#0" expanded="false" />
+            <element signature="n#ScamList#0" expanded="false" />
+            <element signature="n#!!block;n#constructor#0;n#ScamList#0" expanded="false" />
+            <element signature="n#!!block;n#componentWillReceiveProps#0;n#ScamList#0" expanded="false" />
+            <element signature="n#!!block;n#render#0;n#ScamList#0" expanded="false" />
+            <element signature="e#11711#16415#0" expanded="false" />
+            <element signature="e#16473#18134#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Landing/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="137" column="79" lean-forward="false" selection-start-line="137" selection-start-column="75" selection-end-line="137" selection-end-column="79" />
+        <state relative-caret-position="557">
+          <caret line="200" column="5" lean-forward="false" selection-start-line="200" selection-start-column="5" selection-end-line="200" selection-end-column="5" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="n#!!block;n#constructor#0;n#SomeComponent#0" expanded="false" />
             <element signature="e#945#1018#0" expanded="false" />
             <element signature="e#1088#2917#0" expanded="false" />
             <element signature="e#2979#3535#0" expanded="false" />
-            <element signature="n#!!block;n#componentWillUnmount#0;n#SomeComponent#0" expanded="false" />
             <element signature="n#!!block;n#handleSubmit#0;n#SomeComponent#0" expanded="false" />
-            <element signature="n#!!block;n#render#0;n#SomeComponent#0" expanded="false" />
-            <element signature="e#6605#6847#0" expanded="false" />
-            <element signature="e#6870#9071#0" expanded="false" />
-            <element signature="e#9120#9326#0" expanded="false" />
+            <element signature="n#!!block;n#handleUpVote#0;n#SomeComponent#0" expanded="false" />
+            <element signature="n#!!block;n#handleDownVote#0;n#SomeComponent#0" expanded="false" />
+            <element signature="e#6105#6687#0" expanded="false" />
+            <element signature="e#7795#8037#0" expanded="false" />
+            <element signature="e#8060#10261#0" expanded="false" />
+            <element signature="e#10310#10516#0" expanded="false" />
             <element signature="n#ScamList#0" expanded="false" />
             <element signature="n#!!block;n#constructor#0;n#ScamList#0" expanded="false" />
             <element signature="n#!!block;n#componentWillReceiveProps#0;n#ScamList#0" expanded="false" />
-            <element signature="n#!!block;n#render#0;n#ScamList#0" expanded="false" />
-            <element signature="e#13478#14951#0" expanded="false" />
-            <element signature="e#15007#15181#0" expanded="false" />
-            <element signature="e#15192#15409#0" expanded="false" />
+            <element signature="e#14655#16128#0" expanded="false" />
+            <element signature="e#16184#16358#0" expanded="false" />
+            <element signature="e#16369#16586#0" expanded="false" />
           </folding>
         </state>
       </provider>
